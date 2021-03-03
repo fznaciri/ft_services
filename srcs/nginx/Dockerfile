@@ -1,11 +1,11 @@
 FROM alpine:latest
 
 #Install packages
-RUN apk update && apk add openssl curl ca-certificates bash
+RUN apk update && apk add openssl curl ca-certificates
 RUN apk add nginx
 
 #Intsall SSH
-RUN apk add openssh
+RUN apk add --no-cache openssh
 
 #Create Directory to excute nginx
 RUN mkdir /run/nginx
@@ -18,13 +18,22 @@ RUN mkdir -p certs/
 COPY nginx-selfsigned.key /etc/ssl/private/nginx.key
 COPY nginx-selfsigned.crt /etc/ssl/certs/nginx.crt
 
+
+RUN adduser -D user
+RUN echo "user:user"|chpasswd
+RUN ssh-keygen -A
+
 #ADD config file
 RUN mkdir -p /etc/nginx/
 COPY site.conf /etc/nginx/conf.d/default.conf
 COPY index.html /var/www
+
 #Expose Ports
 EXPOSE 80
 EXPOSE 443
 EXPOSE 22
+
 #Default CMD
-CMD ["nginx", "-g", "daemon off;"]
+COPY start.sh /tmp/start.sh
+RUN chmod +x /tmp/start.sh
+CMD ["/tmp/start.sh"]
