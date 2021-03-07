@@ -20,7 +20,7 @@ COPY nginx-selfsigned.crt /etc/ssl/certs/nginx.crt
 
 
 RUN adduser -D user
-RUN echo "user:user"|chpasswd
+RUN echo "user:123456"|chpasswd
 RUN ssh-keygen -A
 
 #ADD config file
