@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+RUN apk update && apk add mysql mysql-client mariadb-common openrc && openrc reboot
+
+
+COPY my.cnf /etc/my.cnf
+COPY start.sh /tmp/start.sh
+RUN chmod +x /tmp/start.sh
+
+EXPOSE 3306 
+
+ENTRYPOINT [ "/tmp/start.sh" ]
