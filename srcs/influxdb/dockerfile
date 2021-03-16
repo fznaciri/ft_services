@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk update && apk add influxdb openrc telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted && openrc reboot
+    
+RUN mkdir -p /etc/telegraf/
+
+COPY telegraf.conf /etc/telegraf
+COPY influxdb.conf /etc/influxdb.conf
+COPY start.sh /tmp/start.sh
+RUN chmod +x /tmp/start.sh
+
+EXPOSE 8086 8088
+
+ENTRYPOINT [ "/tmp/start.sh" ]

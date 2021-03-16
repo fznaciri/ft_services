@@ -11,7 +11,7 @@
             "name": "test",
             "group": "test",
             "database": "wp",
-            "username": "wp-user",
+            "username": "wpuser",
             "password": "123456"
         }
     ]

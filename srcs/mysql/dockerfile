@@ -1,9 +1,11 @@
 FROM alpine:latest
 
-RUN apk update && apk add mysql mysql-client mariadb-common openrc && openrc reboot
+RUN apk update && apk add mysql mysql-client mariadb-common openrc telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted && openrc reboot
 
+RUN mkir -p /etc/telegraf
 
 COPY my.cnf /etc/my.cnf
+COPY telegraf.conf /etc/telegraf
 COPY start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 

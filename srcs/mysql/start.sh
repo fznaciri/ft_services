@@ -1,17 +1,24 @@
 #!/bin/sh
-# /etc/init.d/mariadb start
-# mysql -u root -e "CREATE DATABASE IF NOT EXISTS wp ;"
-# mysql -u root -e "CREATE USER 'wp-user'@'%' IDENTIFIED BY '123456' ;"
-# mysql -u root -e "GRANT ALL ON *.* TO 'wp-user'@'%' ;"
-# mysql -u root -e "FLUSH PRIVILEGES ;"
-# mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root' ;"
-
-# /etc/init.d/mariadb restart
 
 rc-service mariadb setup
 rc-service mariadb start
-mysql -u root -e "CREATE USER 'wpuser'@'%' IDENTIFIED BY '123456';"
-mysql -u root -e "CREATE DATABASE wp;"
-mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'wpuser'@'%'; FLUSH PRIVILEGES;"
+mysql -e "CREATE USER 'wpuser'@'localhost' IDENTIFIED BY '123456';"
+mysql -e "CREATE DATABASE wp;"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'wpuser'@'localhost';" 
+mysql -e "FLUSH PRIVILEGES;"
 
 /etc/init.d/mariadb restart
+telegraf --config /etc/telegraf/telegraf.conf
+
+sleep 5;
+while true
+do
+    if [[ -z $(ps | grep mysqld | grep -v grep) ]]
+    then
+        echo "PROCESS BEING KILLED"
+        break
+    fi
+    sleep 5;
+done;
+
+exec 
