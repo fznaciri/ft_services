@@ -1,12 +1,15 @@
 FROM alpine:latest
 
-RUN apk update && apk add openrc grafana --update-cache --repository http://git.alpinelinux.org/aports/tree/testing/grafana-image-renderer?h=master --allow-untrusted && openrc reboot
-RUN apk add telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted 
-RUN mkdir -p /etc/telegraph
+RUN apk update && apk add su-exec libc6-compat openrc && openrc reboot
+RUN wget https://dl.grafana.com/oss/release/grafana-7.4.3.linux-amd64.tar.gz
+RUN tar -zxvf grafana-7.4.3.linux-amd64.tar.gz
+RUN apk add telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted && mkdir -p /etc/telegraph
+ 
 
+COPY grafana.ini /etc/grafana.ini
 COPY telegraf.conf /etc/telegraf
 COPY start.sh /tmp/start.sh
-RUN chmod +x /tmp/start.sh
+RUN chmod +x /tmp/start.sh 
 
 EXPOSE 3000
 
