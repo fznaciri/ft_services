@@ -1,0 +1,13 @@
+FROM alpine:latest
+
+RUN apk update && apk add openrc grafana --update-cache --repository http://git.alpinelinux.org/aports/tree/testing/grafana-image-renderer?h=master --allow-untrusted && openrc reboot
+RUN apk add telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted 
+RUN mkdir -p /etc/telegraph
+
+COPY telegraf.conf /etc/telegraf
+COPY start.sh /tmp/start.sh
+RUN chmod +x /tmp/start.sh
+
+EXPOSE 3000
+
+ENTRYPOINT [ "/tmp/start.sh" ]
