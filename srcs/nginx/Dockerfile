@@ -1,8 +1,8 @@
-FROM alpine:latest
+FROM alpine:3.12
 
 #Install packages
 RUN apk update && apk add openssl curl ca-certificates telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted
-RUN apk add nginx
+RUN apk add nginx openrc
 
 #Intsall SSH
 RUN apk add --no-cache openssh
@@ -10,6 +10,9 @@ RUN apk add --no-cache openssh
 #Create Directory to excute nginx
 RUN mkdir /run/nginx
 RUN mkdir -p /etc/telegraf
+
+RUN mkdir /run/openrc
+RUN touch /run/openrc/softlevel
 #Key & Certs
 RUN mkdir -p /etc/ssl/
 WORKDIR /etc/ssl
@@ -36,4 +39,5 @@ EXPOSE 22
 #Default CMD
 COPY start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
-CMD ["/tmp/start.sh"]
+CMD /tmp/start.sh
+RUN touch /tst

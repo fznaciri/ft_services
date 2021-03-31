@@ -1,4 +1,12 @@
 #!/bin/sh
-/usr/sbin/sshd -D
+
+rc-status
+rc-service nginx start
+
 telegraf --config /etc/telegraf/telegraf.conf
-nginx -g "daemon off;"
+/usr/sbin/sshd -D
+#nginx -g "daemon off;"
+# while true
+# do 
+# sleep 1;
+# done
