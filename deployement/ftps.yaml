@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ftps
 spec:
-  replicas: 1
+  replicas: 1 
   selector:
     matchLabels:
       app: ftps
@@ -16,3 +16,41 @@ spec:
       - name: ftps
         image: ftps-local
         imagePullPolicy: Never
+        ports:
+        - containerPort: 21
+        - containerPort: 35000
+        - containerPort: 35001
+        - containerPort: 35002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ftps
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: shared
+spec:
+  selector:
+    app: ftps
+  ports:
+  - port: 21
+    protocol: TCP
+    name: "ftps"
+    targetPort: 21
+  - port: 21
+    protocol: TCP
+    name: "ftps"
+    targetPort: 21
+  - port: 35000
+    protocol: TCP
+    name: "ftps"
+    targetPort: 35000
+  - port: 35001
+    protocol: TCP
+    name: "ftps"
+    targetPort: 3501
+  - port: 35002
+    protocol: TCP
+    name: "ftps"
+    targetPort: 3502
+  type: LoadBalancer

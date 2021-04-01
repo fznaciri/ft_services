@@ -16,3 +16,22 @@ spec:
       - name: wordpress
         image: wordpress-local
         imagePullPolicy: Never
+        ports:
+        - containerPort: 5050
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: shared
+spec:
+  selector:
+    app: wordpress
+  ports:
+  - port: 5050
+    targetPort: 5050
+  type: LoadBalancer

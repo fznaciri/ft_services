@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: influxdb
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: influxdb
@@ -16,3 +15,43 @@ spec:
       - name: influxdb
         image: influxdb-local
         imagePullPolicy: Never
+        ports:
+        - containerPort: 8086
+        volumeMounts:
+          - name: influxdb-persistent-storage
+            mountPath: /var/lib/influxdb/data
+      volumes:
+      - name: influxdb-persistent-storage
+        persistentVolumeClaim:
+            claimName: influxdb-pv-claim
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: shared
+spec:
+  selector:
+    app: influxdb
+  ports:
+  - port: 8086
+    targetPort: 8086
+  type: ClusterIP
+  
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: influxdb-pv-claim
+  labels:
+    app: influxdb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

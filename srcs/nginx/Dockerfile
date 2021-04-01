@@ -1,7 +1,8 @@
 FROM alpine:3.12
 
 #Install packages
-RUN apk update && apk add openssl curl ca-certificates telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted
+RUN apk update && apk add openssl curl ca-certificates 
+# telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted
 RUN apk add nginx openrc
 
 #Intsall SSH
