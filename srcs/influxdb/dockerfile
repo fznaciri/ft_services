@@ -1,6 +1,7 @@
-FROM alpine:latest
+FROM alpine:3.12
 
-RUN apk update && apk add influxdb openrc telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted && openrc reboot
+RUN apk update && apk add influxdb openrc && openrc reboot
+# telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted 
     
 RUN mkdir -p /etc/telegraf/
 

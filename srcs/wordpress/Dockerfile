@@ -15,10 +15,14 @@ RUN wget http://wordpress.org/latest.tar.gz && tar -xzvf latest.tar.gz && rm lat
 RUN chown 777 /var/www 
 
 #ADD config file\
-RUN mkdir -p /etc/nginx/
+RUN mkdir -p /etc/nginx
+COPY wp.crt /wp.crt
+COPY wp.key /wp.key
+COPY prob.sh /prob.sh
 COPY site.conf /etc/nginx/conf.d/default.conf
 COPY telegraf.conf /etc/telegraf
 #COPY index.php /var/www
+COPY wp-config.php /var/www/wordpress/wp-config.php
 COPY start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 

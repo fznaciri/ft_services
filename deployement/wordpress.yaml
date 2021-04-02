@@ -18,6 +18,13 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 5050
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - /prob.sh
+          initialDelaySeconds: 5
+          periodSeconds: 5
 
 ---
 

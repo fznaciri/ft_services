@@ -37,20 +37,16 @@ spec:
     protocol: TCP
     name: "ftps"
     targetPort: 21
-  - port: 21
+  - port: 10090
     protocol: TCP
-    name: "ftps"
-    targetPort: 21
-  - port: 35000
+    name: "ftps1"
+    targetPort: 10090
+  - port: 10091
     protocol: TCP
-    name: "ftps"
-    targetPort: 35000
-  - port: 35001
+    name: "ftps2"
+    targetPort: 10091
+  - port: 10092
     protocol: TCP
-    name: "ftps"
-    targetPort: 3501
-  - port: 35002
-    protocol: TCP
-    name: "ftps"
-    targetPort: 3502
+    name: "ftps3"
+    targetPort: 10092
   type: LoadBalancer

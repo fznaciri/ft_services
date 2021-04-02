@@ -1,9 +1,9 @@
-FROM alpine:latest
+FROM alpine:3.12
 
 RUN apk update && apk add su-exec libc6-compat openrc && openrc reboot
 RUN wget https://dl.grafana.com/oss/release/grafana-7.4.3.linux-amd64.tar.gz
 RUN tar -zxvf grafana-7.4.3.linux-amd64.tar.gz
-RUN apk add telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted && mkdir -p /etc/telegraph
+# RUN apk add telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted && mkdir -p /etc/telegraph
  
 
 COPY grafana.ini /etc/grafana.ini
