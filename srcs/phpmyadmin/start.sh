@@ -1,4 +1,5 @@
 #!/bin/sh
-/usr/sbin/php-fpm7
-telegraf --config /etc/telegraf/telegraf.conf
-nginx -g "daemon off;"
+rc-service php-fpm7 start
+rc-service nginx start
+/telegraf/usr/bin/telegraf --config /telegraf.conf
+cat /dev/random

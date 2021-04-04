@@ -2,9 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: metallb-system
-  #annotations:
-    #metallb.universe.tf/address-pool: default
-    #metallb.universe.tf/allow-shared-ip: shared
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: shared
   name: config
 data:
   config: |
@@ -12,4 +12,4 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 192.168.99.109-192.168.99.109
+      - 192.168.99.121-192.168.99.121

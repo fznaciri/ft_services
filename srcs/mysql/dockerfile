@@ -1,14 +1,17 @@
 FROM alpine:3.12
 
-RUN apk update && apk add mysql mysql-client openrc && openrc reboot
-# telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted 
+RUN apk update && apk add mysql mysql-client libc6-compat openrc && openrc reboot
+RUN wget https://dl.influxdata.com/telegraf/releases/telegraf-1.16.3_linux_amd64.tar.gz \
+    && tar -xzvf telegraf-1.16.3_linux_amd64.tar.gz && rm telegraf-1.16.3_linux_amd64.tar.gz \
+    && mv telegraf-1.16.3 telegraf
 
 RUN mkdir -p /etc/telegraf
 RUN mkdir -p /var/lib/mysql /run/mysqld/
 RUN chown -R mysql:root /run/mysqld
 COPY wp.sql /wp.sql
 COPY my.cnf /etc/my.cnf
-COPY telegraf.conf /etc/telegraf
+COPY telegraf.conf /telegraf.conf
+COPY prob.sh /prob.sh
 COPY start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 EXPOSE 3306 

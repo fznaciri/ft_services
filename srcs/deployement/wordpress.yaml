@@ -1,37 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana
+  name: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: grafana
+      app: wordpress
   template:
     metadata:
       labels:
-        app: grafana
+        app: wordpress
     spec:
       containers:
-      - name: grafana
-        image: grafana-local
+      - name: wordpress
+        image: wordpress-local
         imagePullPolicy: Never
         ports:
-        - containerPort: 3000
-
+        - containerPort: 5050
+        livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - /prob.sh
+            initialDelaySeconds: 10
+            periodSeconds: 5
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana
+  name: wordpress
   annotations:
     metallb.universe.tf/address-pool: default
     metallb.universe.tf/allow-shared-ip: shared
 spec:
   selector:
-    app: grafana
+    app: wordpress
   ports:
-  - port: 3000
-    targetPort: 3000
+  - port: 5050
+    targetPort: 5050
   type: LoadBalancer

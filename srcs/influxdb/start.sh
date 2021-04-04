@@ -1,15 +1,5 @@
 #!/bin/sh
-telegraf --config /etc/telegraf/telegraf.conf
-influxd -config /etc/influxdb.conf
-
-# sleep 5;
-# while true
-# do
-#     if [[ -z $(ps | grep influxd | grep -v grep) ]]
-#     then
-#         echo "PROCESS BEING KILLED"
-#         break
-#     fi
-#     sleep 5;
-# done;
+touch /run/openrc/softlevel
+rc-service influxdb start
+/telegraf/usr/bin/telegraf --config /telegraf.conf
 cat /dev/random

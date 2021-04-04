@@ -1,4 +1,5 @@
 #!/bin/sh
+
 if [[ $(ps | grep -v "grep" | grep -c "nginx") == 0 ]]
 then
     exit 1

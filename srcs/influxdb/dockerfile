@@ -1,11 +1,11 @@
 FROM alpine:3.12
 
-RUN apk update && apk add influxdb openrc && openrc reboot
-# telegraf --update-cache --repository http://git.alpinelinux.org/aports/tree/community/telegraf?h=master --allow-untrusted 
-    
-RUN mkdir -p /etc/telegraf/
-
-COPY telegraf.conf /etc/telegraf
+RUN apk update && apk add influxdb libc6-compat openrc && openrc reboot
+RUN wget https://dl.influxdata.com/telegraf/releases/telegraf-1.16.3_linux_amd64.tar.gz \
+    && tar -xzvf telegraf-1.16.3_linux_amd64.tar.gz && rm telegraf-1.16.3_linux_amd64.tar.gz \
+    && mv telegraf-1.16.3 telegraf
+COPY telegraf.conf /telegraf.conf
+COPY prob.sh /prob.sh
 COPY influxdb.conf /etc/influxdb.conf
 COPY start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
