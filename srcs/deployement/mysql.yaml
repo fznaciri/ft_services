@@ -1,3 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+    app: mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---      
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,7 +36,7 @@ spec:
               command:
               - /bin/sh
               - /prob.sh
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 5
         volumeMounts:
           - name: mysql-persistent-storage
@@ -44,16 +57,4 @@ spec:
   - port: 3306
     targetPort: 3306
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-  labels:
-    app: mysql
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+
