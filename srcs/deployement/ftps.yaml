@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ftps
+  name: ftps-deployment
+  labels:
+    app: ftps
 spec:
   replicas: 1 
   selector:
@@ -26,7 +28,7 @@ spec:
               command:
               - /bin/sh
               - /prob.sh
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 5
 ---
 apiVersion: v1

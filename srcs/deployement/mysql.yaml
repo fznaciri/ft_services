@@ -14,7 +14,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: mysql-deployment
+  labels:
+    app: mysql
 spec:
   replicas: 1
   selector:
@@ -36,7 +38,7 @@ spec:
               command:
               - /bin/sh
               - /prob.sh
-            initialDelaySeconds: 30
+            initialDelaySeconds: 40
             periodSeconds: 5
         volumeMounts:
           - name: mysql-persistent-storage

@@ -14,7 +14,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: influxdb
+  name: influxdb-deployment
+  labels:
+    app: influxdb
 spec:
   selector:
     matchLabels:
@@ -35,11 +37,11 @@ spec:
               command:
               - /bin/sh
               - /prob.sh
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 5
         volumeMounts:
           - name: influxdb-persistent-storage
-            mountPath: /var/lib/influxdb/data
+            mountPath: /var/lib/influxdb
       volumes:
       - name: influxdb-persistent-storage
         persistentVolumeClaim:
